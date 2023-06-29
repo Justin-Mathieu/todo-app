@@ -1,21 +1,17 @@
-import React, { useContext } from 'react';
-import SettingsProvider, { SettingsContext } from './Context/Settings';
+import React from 'react';
+
+import Todo from './Components/Todo';
 import Header from './Components/Header';
 import Footer from './Components/Footer';
-import List from './Components/List';
-import Todo from './Components/Todo';
 
-
-
-function App(){
+export default class App extends React.Component {
+  render() {
     return (
       <>
-      <Header />
-      <Todo />
-      <List />
-      <Footer/>
-    </>
+        <Header />
+        <Todo />
+        {/* <Footer /> */}
+      </>
     );
   }
-
-
+}
