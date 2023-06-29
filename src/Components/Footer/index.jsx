@@ -2,9 +2,9 @@ import React from "react";
 
 function Footer(){
     return (
-    <Footer>
+    <footer>
          &copy;2023 Code Fellows
-    </Footer>
+    </footer>
     )
 }
 

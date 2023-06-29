@@ -1,12 +1,11 @@
-import { createStyles, Navbar, Text } from '@mantine/core';
+import { createStyles, Navbar, Text, Theme} from '@mantine/core';
 
-const useStyles = createStyles((theme)=>({
+const useStyles = createStyles((Theme)=>({
 navbar:{  
-  backgroundColor: theme.colors.blue[7],
+  backgroundColor: Theme.colors.blue[7],
 height: '100%',
-color:theme.colors.gray[0],
-// fontSize: theme.fontSize.md,
-padding: theme.spacing.md,
+color:Theme.colors.gray[0],
+padding: Theme.spacing.md,
 }
 }));
 
