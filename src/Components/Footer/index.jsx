@@ -1,9 +1,11 @@
 import React from "react";
 
 function Footer(){
-    <Footer>
-        TRhis is the footer
-    </Footer>
+    return (
+    <footer>
+         &copy;2023 Code Fellows
+    </footer>
+    )
 }
 
 export default Footer;

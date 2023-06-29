@@ -1,21 +1,25 @@
-import React, { useContext } from 'react';
-import SettingsProvider, { SettingsContext } from './Context/Settings';
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import Todo from './Components/Todo';
 import Header from './Components/Header';
 import Footer from './Components/Footer';
-import List from './Components/List';
-import Todo from './Components/Todo';
+import SettingsForm from './Components/SettingsForm';
 
-
-
-function App(){
+export default class App extends React.Component {
+  render() {
     return (
       <>
-      <Header />
-      <Todo />
-      <List />
-      <Footer/>
-    </>
+   <BrowserRouter>
+          <Header />
+          <Routes>
+            <Route path="/" element={<Todo />} />
+            <Route path="/settings" element={<SettingsForm />} />
+          </Routes>
+          <Footer />
+        </BrowserRouter>        <Header />
+        <Todo />
+        <Footer />
+      </>
     );
   }
-
-
+}
