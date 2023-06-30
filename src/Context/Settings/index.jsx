@@ -11,6 +11,9 @@ function SettingsProvider({children}){
         displayCount,
         showcomplete,
         sort,
+        setSort,
+        setDisplayCount,
+        setShowComplete,
     }
     return(
         <SettingsContext.Provider value={values}>
