@@ -1,9 +1,9 @@
 
 import React from 'react';
-import {useContext} from 'react';
+import {useContext, useState} from 'react';
+import { When } from 'react-if';
 import { SettingsContext } from '../../Context/Settings';
-import { ClassNames } from '@emotion/react';
-import { Grid, TextInput, createStyles } from '@mantine/core';
+import { Grid, TextInput, createStyles, Button, Text, NumberInput, Switch} from '@mantine/core';
 import {IconSettings} from '@tabler/icons-react';
 const useStyles = createStyles((theme)=>({
     h1:{
@@ -20,10 +20,11 @@ const useStyles = createStyles((theme)=>({
 
 function SettingsForm(){ 
     const {classes} = useStyles();
+    const {show, setShow} = useState(false)
     const {
-        displyCount,
+        displayCount,
         showComplete,
-        SetDisplay,
+        setDisplayCount,
         setShowComplete,
         sort,
         setSort,
@@ -38,18 +39,29 @@ function SettingsForm(){
         <>
         <h1 className={ classes.h1}><IconSettings/>Manage Settings</h1>
         <Grid>
-            <Grid.Col span={6}>
+            <Grid.Col span={6}> 
                 <form onSubmit={handleSubmit}>
-                    <TextInput placeholder={sort} label='Difficulty' onChange={(event)=> setSort(event.target.value)}
-                />
+                    <Text fontSize='xl'>Update Settings</Text>
+                    <Switch checked={showComplete} onChange={(e)=>setShowComplete(e.currentTarget.checked)} label='Show Completed'/>
+                    
+                        <NumberInput value={displayCount} label='Keyword' onChange={(e)=>setDisplayCount(e.target.value)} />
+                        <TextInput placeholder={sort} label='Difficulty' onChange={(event)=> setSort(event.target.value)}/>
                 </form>
+                    
+                  
+              
+                
+               
+                <Button type='submit'>Save New Settings</Button>
             </Grid.Col>
-            <Grid.Col span={6}>2</Grid.Col>
-
-            <Grid.Col>
-                <TextInput placeholder={sort} label=''></TextInput>
-            </Grid.Col>
-
+                <Grid.Col span={6}>
+<When condition={show}>
+<Text fontSize='xl'>Updated Settings</Text>
+<Text>{showComplete ? 'show' : 'hide'} Completed Todos</Text>
+<Text>items per page: {displayCount}</Text>
+<Text>Sort Keyword: {sort}</Text>
+</When>
+                </Grid.Col>
         </Grid>
         </>
         
