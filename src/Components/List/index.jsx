@@ -1,7 +1,7 @@
 
 import { useState, useContext } from "react";
 import { SettingsContext } from "../../Context/Settings";
-import { Pagination, Card, Badge, Text} from '@mantine/core';
+import { Pagination, Card, Badge, Text, Button} from '@mantine/core';
 
 function List({ list, toggleComplete }) {
 const {displayCount, showComplete, sort} = useContext(SettingsContext);
@@ -21,7 +21,11 @@ return (
         <div key={item.id}>
           <Card.Section>
            
-          <Badge onClick={() => toggleComplete(item.id)} >{item.complete.toString()}</Badge>
+          <Badge >
+            <Button Click={() => toggleComplete(item.id)}>
+              {item.complete.toString()}
+             </Button>
+          </Badge>
            <p>{item.assignee}</p>
           </Card.Section>
           <p>{item.text}</p>
