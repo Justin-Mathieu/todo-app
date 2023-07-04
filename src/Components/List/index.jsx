@@ -17,7 +17,7 @@ return (
   <>
   
   {displayList.map(item => (
-      <Card shadow="sm" padding="lg" radius="md" withBorder>
+      <Card shadow="sm" padding="lg" radius="md" withBorder >
         <div key={item.id}>
           <Card.Section>
            
