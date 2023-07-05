@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import useForm from '../../hooks/form';
 import List from '../List'
 import { v4 as uuid } from 'uuid';
+import { Card } from '@mantine/core';
 
 const Todo = () => {
 
@@ -26,16 +27,13 @@ const Todo = () => {
   }
 
   function toggleComplete(id) {
-
     const items = list.map( item => {
       if ( item.id === id ) {
         item.complete = ! item.complete;
       }
       return item;
     });
-
     setList(items);
-
   }
 
   useEffect(() => {
@@ -45,37 +43,46 @@ const Todo = () => {
   }, [list]);  
 
   return (
-    <>
-        <h1 data-testid="todo-h1">To Do List: {incomplete} items pending</h1>
+<>
+<h1 data-testid="todo-h1">To Do List: {incomplete} items pending</h1>
+<Card shadow="sm" padding="lg" radius="md" withBorder>
+          <form onSubmit={handleSubmit}>
+        <Card.Section>
+          <h2>Add To Do Item</h2>
+        </Card.Section>
 
-      <form onSubmit={handleSubmit}>
+        <Card.Section>
+          <label>
+              <span>To Do Item</span>
+              <input onChange={handleChange} name="text" type="text" placeholder="Item Details" />
+          </label>
+        </Card.Section>
 
-        <h2>Add To Do Item</h2>
+        <Card.Section>
+          <label>
+              <span>Assigned To</span>
+              <input onChange={handleChange} name="assignee" type="text" placeholder="Assignee Name" />
+          </label>
+        </Card.Section>
 
-        <label>
-          <span>To Do Item</span>
-          <input onChange={handleChange} name="text" type="text" placeholder="Item Details" />
-        </label>
+        <Card.Section>
+           <label>
+                <span>Difficulty</span>
+                <input onChange={handleChange} defaultValue={defaultValues.difficulty} type="range" min={1} max={5} name="difficulty" />
+            </label>
+        </Card.Section>
 
-        <label>
-          <span>Assigned To</span>
-          <input onChange={handleChange} name="assignee" type="text" placeholder="Assignee Name" />
-        </label>
+        <Card.Section>
+            <label>
+              <button type="submit">Add Item</button>
+            </label>
+        </Card.Section>
 
-        <label>
-          <span>Difficulty</span>
-          <input onChange={handleChange} defaultValue={defaultValues.difficulty} type="range" min={1} max={5} name="difficulty" />
-        </label>
+            </form>
+  </Card>
 
-        <label>
-          <button type="submit">Add Item</button>
-        </label>
-      </form>
-
-    <List toggleComplete={toggleComplete} list={list}/>
-
-
-    </>
+  <List toggleComplete={toggleComplete} list={list}/>
+</>
   );
 };
 
