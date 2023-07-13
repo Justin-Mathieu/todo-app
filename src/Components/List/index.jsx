@@ -22,7 +22,7 @@ return (
           <Card.Section>
            
           <Badge >
-            <Button Click={() => toggleComplete(item.id)}>
+            <Button onClick={() => toggleComplete(item.id)}>
               {item.complete.toString()}
              </Button>
           </Badge>
