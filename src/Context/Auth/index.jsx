@@ -1,8 +1,8 @@
 import React from 'react';
-import {useState, useContext, useEffect} from 'react';
-import testUsers from './lib/user';
+import {useState, useEffect} from 'react';
 import cookie from 'react-cookies';
 import jwt_decode from 'jwt-decode';
+import axios from 'axios';
 
 export const AuthContext = React.createContext();
 
@@ -21,11 +21,12 @@ useEffect(()=>{
 }, []);
 
 function validateToken(token){
+    console.log(token)
     try{
             let valid = jwt_decode(token)
     if(valid){
-        cookie.save(valid)
-        setUser(token);
+        cookie.save('auth', token)
+        setUser(valid);
         setloggedIn(true)
     }
     }
@@ -39,22 +40,34 @@ function validateToken(token){
 function logOut(){
     setUser({});
     setloggedIn(false);
+    cookie.remove('auth');
 }
 
-function logIn(username, password){
-    let user = testUsers[username];
-    if(user && user.password === password){
+async function logIn (username, password){
+    console.log(username, password)
+    let config = {
+        baseURL: 'https://api-js401.herokuapp.com',
+        url:'/signin',
+        method: 'post',
+        auth: {username, password}
+    }
+    let response = await axios(config);
+    console.log(response)
+    let user = response.data;
+    if(user){
         try{
             validateToken(user.token);
         }
         catch(error){
+            console.log(error)
             setError(error)
         }
     }
 }
 
 function roleCapability(capability){
-   return user?.capability.includes(capability)
+    console.log(capability)
+   return user?.capability?.includes(capability)
 }
 const values = {
     loggedIn,
@@ -63,6 +76,7 @@ const values = {
     logIn,
     logOut,
     roleCapability,
+
 }
 return(
     <AuthContext.Provider value={values}>
