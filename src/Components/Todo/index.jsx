@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import useForm from '../../hooks/form';
 import List from '../List'
-import { v4 as uuid } from 'uuid';
 import { Card } from '@mantine/core';
+import axios from 'axios';
 
 const Todo = () => {
 
@@ -14,26 +14,36 @@ const Todo = () => {
   const [incomplete, setIncomplete] = useState([]);
   const { handleChange, handleSubmit } = useForm(addItem, defaultValues);
 
-  function addItem(item) {
-    item.id = uuid();
-    item.complete = false;
-    console.log(item);
+   async function addItem(item) {
+    console.log(item)
+     item.complete = false;
+    let config = {
+      baseURL: 'https://api-js401.herokuapp.com/api/v1/todo',
+      method: 'post',
+      data: item
+    }
+     let response = await axios(config)
+    console.log(response.data, item);
     setList([...list, item]);
   }
 
-  function deleteItem(id) {
-    const items = list.filter( item => item.id !== id );
+  async function deleteItem(id) {
+    console.log(id)
+    axios.delete(`https://api-js401.herokuapp.com/api/v1/todo/${id}`)
+    const items = list.filter( item => item._id !== id );
     setList(items);
   }
 
-  function toggleComplete(id) {
-    console.log(id)
-    const items = list.map( item => {
-      if ( item.id === id ) {
-        item.complete = !item.complete;
-      }
-      return item;
-    });
+  async function toggleComplete(itemUpdate) {
+    let config = {
+      BaseURL: 'https://api-js401.herokuapp.com/api/v1/todo',
+      method: 'put',
+      data: itemUpdate
+    }
+    await axios(config)
+    let response = await axios.get('https://api-js401.herokuapp.com/api/v1/todo');
+    let items = response.data.results;
+    
     setList(items);
   }
 
@@ -42,6 +52,15 @@ const Todo = () => {
     setIncomplete(incompleteCount);
     document.title = `To Do List: ${incomplete}`;
   }, [list]);  
+
+
+  useEffect(()=>{
+(async ()=>{
+  let response = await axios.get('https://api-js401.herokuapp.com/api/v1/todo');
+  console.log(response)
+  setList(response.data.results);
+})()
+  }, []);
 
   return (
 <>
@@ -82,7 +101,7 @@ const Todo = () => {
             </form>
   </Card>
 
-  <List toggleComplete={toggleComplete} list={list}/>
+  <List toggleComplete={toggleComplete} list={list} deleteItem={deleteItem}/>
 </>
   );
 };
